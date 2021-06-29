@@ -117,7 +117,7 @@ else:
 #Good old glucose
 st.header('Platelet Count Value Graph (Yours vs Others)')
 fig_Radius = plt.figure()
-ax3 = sns.scatterplot(x = 'Age', y = 'Platelet Count', data = df, hue = 'Outcome' , palette='Purples')
+ax3 = sns.scatterplot(x = 'Age', y = 'Platelet_Count', data = df, hue = 'Outcome' , palette='Purples')
 ax4 = sns.scatterplot(x = user_data['Age'], y = user_data['Platelet_Count'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0,3500,175))
