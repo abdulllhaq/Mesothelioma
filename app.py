@@ -27,12 +27,6 @@ This app detects if you have Breast Cancer based on Machine Learning!
 st.write('---')
 
 df = pd.read_csv(r'Mesothelioma data set.csv')
-df = df.reset_index()
-
-#titles
-st.sidebar.header('Patient Data')
-st.subheader('Training Dataset')
-st.write(df.describe())
 
 def clean_dataset(df):
     assert isinstance(df, pd.DataFrame), "df needs to be a pd.DataFrame"
@@ -41,6 +35,13 @@ def clean_dataset(df):
     return df[indices_to_keep].astype(np.float64)
 
 dfnew=clean_dataset(df)
+#titles
+st.sidebar.header('Patient Data')
+st.subheader('Training Dataset')
+st.write(dfnew.describe())
+
+
+
 #train data. Fun!
 x = dfnew.drop(['Outcome'], axis = 1)
 y = dfnew.iloc[:, -1]
