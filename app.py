@@ -14,7 +14,7 @@ from PIL import Image
 
 #App description
 st.markdown('''
-#  Breast Cancer Detector 
+#  Mesothelioma Detector 
 This app detects if you have Breast Cancer based on Machine Learning!
 - App built by Pranav Sawant and Anshuman Shukla of Team Skillocity.
 - Dataset Creators: 
@@ -42,16 +42,18 @@ x_train, x_test, y_train, y_test = train_test_split(x,y, test_size = 0.2, random
 #User reports
 def user_report():
   Age = st.sidebar.slider('Age', 0,100, 54)
-  Radius = st.sidebar.slider('Radius', 0,30, 15 )
-  Texture = st.sidebar.slider('Texture', 0,40, 20 )
-  Perimeter = st.sidebar.slider('Perimeter', 40,200, 92 )
-  Area = st.sidebar.slider('Area', 140,2600, 650 )
-  Smoothness = st.sidebar.slider('Smoothness', 0.0,0.25, 0.1 )
-  Compactness = st.sidebar.slider('Compactness', 0.0,0.4, 0.1 )
-  Concavity = st.sidebar.slider('Concavity', 0.0,0.5, 0.1 )
-  Concave_points = st.sidebar.slider('Concave points', 0.0,0.25, 0.05 )
-  Symmetry = st.sidebar.slider('Symmetry', 0.0,0.4, 0.2 )
-  Fractal_Dimension = st.sidebar.slider('Fractal Dimension', 0.0,0.1, 0.06 )
+  Platelet_Count = st.sidebar.slider('Platelet Count', 0,30, 15 )
+  Blood_Lactic_Dehydrogenise = st.sidebar.slider('Blood Lactic Dehydrogenise', 0,40, 20 )
+  Alkaline_Phosphatise = st.sidebar.slider('Alkaline Phosphatise', 40,200, 92 )
+  Total_Protein = st.sidebar.slider('Total Protein', 0.0,0.25, 0.1 )
+  Albumin = st.sidebar.slider('Albumin', 0.0,0.4, 0.1 )
+  Glucose = st.sidebar.slider('Glucose', 0.0,0.5, 0.1 )
+  Pleural_Lactic_Dehydrogenise = st.sidebar.slider('Pleural Lactic Dehydrogenise', 0.0,0.25, 0.05 )
+  Pleural_Protein = st.sidebar.slider('Pleural Protein', 0.0,0.4, 0.2 )
+  Pleural_Albumin = st.sidebar.slider('Pleural Albumin', 0.0,0.1, 0.06 )
+  Pleural_Glucose = st.sidebar('Pleural Glucose', 0.0,0.1, 0.06)
+  Creactive_Protein = st.sidebar('C-reactive Protein', 0.0,0.1, 0.06)
+  
   
   
   
@@ -59,17 +61,17 @@ def user_report():
   
   user_report_data = {
       'Age':Age,
-      'Radius':Radius,
-      'Texture':Texture,
-      'Perimeter':Perimeter,
-      'Area':Area,
-      'Smoothness':Smoothness,
-      'Compactness':Compactness,
-      'Concavity':Concavity,
-      'Concave_points':Concave_points,
-      'Symmetry':Symmetry,
-      'Fractal_Dimension':Fractal_Dimension,
-      
+      'Radius':Platelet_Count,
+      'Texture':Blood_Lactic_Dehydrogenise,
+      'Perimeter':Alkaline_Phosphatise,
+      'Area':Total_Protein,
+      'Smoothness':Albumin,
+      'Compactness':Glucose,
+      'Concavity':Pleural_Lactic_Dehydrogenise,
+      'Concave_points':Pleural_Protein,
+      'Symmetry':Pleural_Albumin,
+      'Fractal_Dimension':Pleural_Glucose,
+      'Creactive_Protein':Creactive_Protein,
         
   }
   report_data = pd.DataFrame(user_report_data, index=[0])
@@ -218,9 +220,9 @@ st.pyplot(fig_FractalDimension)
 st.subheader('Your Report: ')
 output=''
 if user_result[0]==0:
-  output = 'Congratulations, you do not have  Breast Cancer'
+  output = 'Congratulations, you do not have  Mesothelioma'
 else:
-  output = 'Unfortunately, you do have Breast Cancer'
+  output = 'Unfortunately, you do have Mesothelioma'
 st.title(output)
 
 st.subheader('Accuracy: ')
