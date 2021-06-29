@@ -61,16 +61,16 @@ def user_report():
   
   user_report_data = {
       'Age':Age,
-      'Radius':Platelet_Count,
-      'Texture':Blood_Lactic_Dehydrogenise,
-      'Perimeter':Alkaline_Phosphatise,
-      'Area':Total_Protein,
-      'Smoothness':Albumin,
-      'Compactness':Glucose,
-      'Concavity':Pleural_Lactic_Dehydrogenise,
-      'Concave_points':Pleural_Protein,
-      'Symmetry':Pleural_Albumin,
-      'Fractal_Dimension':Pleural_Glucose,
+      'Platelet_Count':Platelet_Count,
+      'Blood_Lactic_Dehydrogenise':Blood_Lactic_Dehydrogenise,
+      'Alkaline_Phosphatise':Alkaline_Phosphatise,
+      'Total_Protein':Total_Protein,
+      'Albumin':Albumin,
+      'Glucose':Glucose,
+      'Pleural_Lactic_Dehydrogenise':Pleural_Lactic_Dehydrogenise,
+      'Pleural_Protein':Pleural_Protein,
+      'Pleural_Albumin':Pleural_Albumin,
+      'Pleural_Glucose':Pleural_Glucose,
       'Creactive_Protein':Creactive_Protein,
         
   }
@@ -106,10 +106,10 @@ else:
   color = 'red'
 
 #Good old glucose
-st.header('Radius Value Graph (Yours vs Others)')
+st.header('Platelet Count Value Graph (Yours vs Others)')
 fig_Radius = plt.figure()
-ax3 = sns.scatterplot(x = 'Age', y = 'Radius', data = df, hue = 'Outcome' , palette='Purples')
-ax4 = sns.scatterplot(x = user_data['Age'], y = user_data['Radius'], s = 150, color = color)
+ax3 = sns.scatterplot(x = 'Age', y = 'Platelet Count', data = df, hue = 'Outcome' , palette='Purples')
+ax4 = sns.scatterplot(x = user_data['Age'], y = user_data['Platelet_Count'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0,50,5))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -117,10 +117,10 @@ st.pyplot(fig_Radius)
 
 
 #Insulin
-st.header('Texture Value Graph (Yours vs Others)')
+st.header('Blood Lactic Dehydrogenise Value Graph (Yours vs Others)')
 fig_Texture = plt.figure()
-ax9 = sns.scatterplot(x = 'Age', y = 'Texture', data = df, hue = 'Outcome', palette='rainbow')
-ax10 = sns.scatterplot(x = user_data['Age'], y = user_data['Texture'], s = 150, color = color)
+ax9 = sns.scatterplot(x = 'Age', y = 'Blood Lactic Dehydrogenise', data = df, hue = 'Outcome', palette='rainbow')
+ax10 = sns.scatterplot(x = user_data['Age'], y = user_data['Blood_Lactic_Dehydrogenise'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0,50,5))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -128,10 +128,10 @@ st.pyplot(fig_Texture)
 
 
 #Famous saying BP
-st.header('Perimeter Value Graph (Yours vs Others)')
+st.header('Alkaline Phosphatise Value Graph (Yours vs Others)')
 fig_Perimeter = plt.figure()
-ax5 = sns.scatterplot(x = 'Age', y = 'Perimeter', data = df, hue = 'Outcome', palette='Blues')
-ax6 = sns.scatterplot(x = user_data['Age'], y = user_data['Perimeter'], s = 150, color = color)
+ax5 = sns.scatterplot(x = 'Age', y = 'Alkaline Phosphatise', data = df, hue = 'Outcome', palette='Blues')
+ax6 = sns.scatterplot(x = user_data['Age'], y = user_data['Alkaline_Phosphatise'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0,200,10))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -139,10 +139,10 @@ st.pyplot(fig_Perimeter)
 
 
 #Did'nt even know this before nutrition training 
-st.header('Area Value Graph (Yours vs Others)')
+st.header('Total Protein Value Graph (Yours vs Others)')
 fig_Area = plt.figure()
-ax11 = sns.scatterplot(x = 'Age', y = 'Area', data = df, hue = 'Outcome', palette='Greens')
-ax12 = sns.scatterplot(x = user_data['Age'], y = user_data['Area'], s = 150, color = color)
+ax11 = sns.scatterplot(x = 'Age', y = 'Total Protein', data = df, hue = 'Outcome', palette='Greens')
+ax12 = sns.scatterplot(x = user_data['Age'], y = user_data['Total_Protein'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(100,2500,100))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -150,10 +150,10 @@ st.pyplot(fig_Area)
 
 
 #Something new, cool
-st.header('Smoothness Value Graph (Yours vs Others)')
+st.header('Albumin Value Graph (Yours vs Others)')
 fig_Smoothness = plt.figure()
-ax13 = sns.scatterplot(x = 'Age', y = 'Smoothness', data = df, hue = 'Outcome', palette='rocket')
-ax14 = sns.scatterplot(x = user_data['Age'], y = user_data['Smoothness'], s = 150, color = color)
+ax13 = sns.scatterplot(x = 'Age', y = 'Albumin', data = df, hue = 'Outcome', palette='rocket')
+ax14 = sns.scatterplot(x = user_data['Age'], y = user_data['Albumin'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0.0,0.25,0.0125))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -161,10 +161,10 @@ st.pyplot(fig_Smoothness)
 
 
 #Don't even know how thats related to diabetes.The dataset was females only though
-st.header('Compactness count Graph (Yours vs Others)')
+st.header('Glucose count Graph (Yours vs Others)')
 fig_Compactness = plt.figure()
-ax1 = sns.scatterplot(x = 'Age', y = 'Compactness', data = df, hue = 'Outcome', palette = 'magma')
-ax2 = sns.scatterplot(x = user_data['Age'], y = user_data['Compactness'], s = 150, color = color)
+ax1 = sns.scatterplot(x = 'Age', y = 'Glucose', data = df, hue = 'Outcome', palette = 'magma')
+ax2 = sns.scatterplot(x = user_data['Age'], y = user_data['Glucose'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0.0,0.4,0.02))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -172,10 +172,10 @@ st.pyplot(fig_Compactness)
 
 
 #Wonder how people measure that 
-st.header('Concavity Value Graph (Yours vs Others)')
+st.header('Pleural Lactic Dehydrogenise Value Graph (Yours vs Others)')
 fig_Concavity = plt.figure()
-ax7 = sns.scatterplot(x = 'Age', y = 'Concavity', data = df, hue = 'Outcome', palette='Reds')
-ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Concavity'], s = 150, color = color)
+ax7 = sns.scatterplot(x = 'Age', y = 'Pleural Lactic Dehydrogenise', data = df, hue = 'Outcome', palette='Reds')
+ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Pleural_Lactic_Dehydrogenise'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0.0,0.5,0.025))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -183,10 +183,10 @@ st.pyplot(fig_Concavity)
 
 
 
-st.header('Concave points Value Graph (Yours vs Others)')
+st.header('Pleural Protein Value Graph (Yours vs Others)')
 fig_Concavepoints = plt.figure()
-ax7 = sns.scatterplot(x = 'Age', y = 'Concave points', data = df, hue = 'Outcome', palette='mako')
-ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Concave_points'], s = 150, color = color)
+ax7 = sns.scatterplot(x = 'Age', y = 'Pleural Protein', data = df, hue = 'Outcome', palette='mako')
+ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Pleural_Protein'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0.0,0.25,0.0125))
 plt.title('0 - Healthy & 1 - Unhealthy')
@@ -195,24 +195,38 @@ st.pyplot(fig_Concavepoints)
 
 
 
-st.header('Symmetry Value Graph (Yours vs Others)')
+st.header('Pleural Albumin Value Graph (Yours vs Others)')
 fig_Symmetry = plt.figure()
-ax7 = sns.scatterplot(x = 'Age', y = 'Symmetry', data = df, hue = 'Outcome', palette='flare')
-ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Symmetry'], s = 150, color = color)
+ax7 = sns.scatterplot(x = 'Age', y = 'Pleural Albumin', data = df, hue = 'Outcome', palette='flare')
+ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Pleural_Albumin'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0.0,0.4,0.02))
 plt.title('0 - Healthy & 1 - Unhealthy')
 st.pyplot(fig_Symmetry)
 
 
-st.header('Fractal Dimension Value Graph (Yours vs Others)')
+st.header('Pleural Glucose Value Graph (Yours vs Others)')
 fig_FractalDimension = plt.figure()
-ax7 = sns.scatterplot(x = 'Age', y = 'Fractal Dimension', data = df, hue = 'Outcome', palette='crest')
-ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Fractal_Dimension'], s = 150, color = color)
+ax7 = sns.scatterplot(x = 'Age', y = 'Pleural Glucose', data = df, hue = 'Outcome', palette='crest')
+ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Pleural_Glucose'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
 plt.yticks(np.arange(0.0,0.1,0.005))
 plt.title('0 - Healthy & 1 - Unhealthy')
 st.pyplot(fig_FractalDimension)
+
+st.header('C-reactive Protein Value Graph (Yours vs Others)')
+fig_FractalDimension = plt.figure()
+ax7 = sns.scatterplot(x = 'Age', y = 'C-reactive Protein', data = df, hue = 'Outcome', palette='crest')
+ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Creactive_Protein'], s = 150, color = color)
+plt.xticks(np.arange(0,100,5))
+plt.yticks(np.arange(0.0,0.1,0.005))
+plt.title('0 - Healthy & 1 - Unhealthy')
+st.pyplot(fig_FractalDimension)
+
+
+
+
+
 
 
 
