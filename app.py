@@ -52,7 +52,7 @@ def user_report():
   Pleural_Lactic_Dehydrogenise = st.sidebar.slider('Pleural Lactic Dehydrogenise', 0.0,0.25, 0.05 )
   Pleural_Protein = st.sidebar.slider('Pleural Protein', 0.0,0.4, 0.2 )
   Pleural_Albumin = st.sidebar.slider('Pleural Albumin', 0.0,0.1, 0.06 )
-  Pleural_Glucose = st.sidebar('Pleural Glucose', 0.0,0.1, 0.06)
+  Pleural_Glucose = st.sidebar('Pleural Glucose', 1,99, 44)
   Creactive_Protein = st.sidebar('C-reactive Protein', 0.0,0.1, 0.06)
   
   
