@@ -43,17 +43,17 @@ x_train, x_test, y_train, y_test = train_test_split(x,y, test_size = 0.2, random
 #User reports
 def user_report():
   Age = st.sidebar.slider('Age', 0,100, 54)
-  Platelet_Count = st.sidebar.slider('Platelet Count', 0,30, 15 )
-  Blood_Lactic_Dehydrogenise = st.sidebar.slider('Blood Lactic Dehydrogenise', 0,40, 20 )
-  Alkaline_Phosphatise = st.sidebar.slider('Alkaline Phosphatise', 40,200, 92 )
-  Total_Protein = st.sidebar.slider('Total Protein', 0.0,0.25, 0.1 )
-  Albumin = st.sidebar.slider('Albumin', 0.0,0.4, 0.1 )
-  Glucose = st.sidebar.slider('Glucose', 0.0,0.5, 0.1 )
-  Pleural_Lactic_Dehydrogenise = st.sidebar.slider('Pleural Lactic Dehydrogenise', 0.0,0.25, 0.05 )
-  Pleural_Protein = st.sidebar.slider('Pleural Protein', 0.0,0.4, 0.2 )
-  Pleural_Albumin = st.sidebar.slider('Pleural Albumin', 0.0,0.1, 0.06 )
+  Platelet_Count = st.sidebar.slider('Platelet Count', 0,3335, 15 )
+  Blood_Lactic_Dehydrogenise = st.sidebar.slider('Blood Lactic Dehydrogenise', 0,983, 20 )
+  Alkaline_Phosphatise = st.sidebar.slider('Alkaline Phosphatise', 0,489, 92 )
+  Total_Protein = st.sidebar.slider('Total Protein', 3.0,8.5, 5.1 )
+  Albumin = st.sidebar.slider('Albumin', 0.5,6.9, 1.1 )
+  Glucose = st.sidebar.slider('Glucose', 0,410, 10 )
+  Pleural_Lactic_Dehydrogenise = st.sidebar.slider('Pleural Lactic Dehydrogenise', 0,7540, 5 )
+  Pleural_Protein = st.sidebar.slider('Pleural Protein', 0.0,6.7, 6.5 )
+  Pleural_Albumin = st.sidebar.slider('Pleural Albumin', 0.0,4.4, 4.2 )
   Pleural_Glucose = st.sidebar.slider('Pleural Glucose', 1,99, 44)
-  Creactive_Protein = st.sidebar.slider('C-reactive Protein', 0.0,0.1, 0.06)
+  Creactive_Protein = st.sidebar.slider('C-reactive Protein', 0,99, 6)
   
   
   
