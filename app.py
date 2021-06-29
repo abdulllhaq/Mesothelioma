@@ -27,7 +27,7 @@ This app detects if you have Breast Cancer based on Machine Learning!
 st.write('---')
 
 df = pd.read_csv(r'Mesothelioma data set.csv')
-
+df = df.reset_index()
 
 #titles
 st.sidebar.header('Patient Data')
