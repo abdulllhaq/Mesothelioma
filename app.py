@@ -175,7 +175,7 @@ fig_Compactness = plt.figure()
 ax1 = sns.scatterplot(x = 'Age', y = 'Glucose', data = df, hue = 'Outcome', palette = 'magma')
 ax2 = sns.scatterplot(x = user_data['Age'], y = user_data['Glucose'], s = 150, color = color)
 plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0,500,25)
+plt.yticks(np.arange(0,500,25))
 plt.title('0 - Healthy & 1 - Unhealthy')
 st.pyplot(fig_Compactness)
 
