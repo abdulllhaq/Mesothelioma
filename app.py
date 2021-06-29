@@ -248,8 +248,6 @@ else:
   output = 'Unfortunately, you do have Mesothelioma'
 st.title(output)
 
-st.subheader('Accuracy: ')
-st.write(str(accuracy_score(y_test, rf.predict(x_test))*100)+'%')
 
 
 st.write("This dataset is also available on the UC Irvine Machine Learning Repository")
@@ -269,4 +267,4 @@ image = Image.open('killocity (3).png')
 
 st.image(image, use_column_width=True)
 
-st.sidebar.subheader("An article about this app: https://proskillocity.blogspot.com/2021/06/breast-cancer-detection-web-app.html")
+st.sidebar.subheader("An article about this app: https://proskillocity.blogspot.com/2021/06/mesothelioma-disease-detector.html")
