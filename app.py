@@ -34,10 +34,16 @@ st.sidebar.header('Patient Data')
 st.subheader('Training Dataset')
 st.write(df.describe())
 
+def clean_dataset(df):
+    assert isinstance(df, pd.DataFrame), "df needs to be a pd.DataFrame"
+    df.dropna(inplace=True)
+    indices_to_keep = ~df.isin([np.nan, np.inf, -np.inf]).any(1)
+    return df[indices_to_keep].astype(np.float64)
 
+dfnew=clean_dataset(df)
 #train data. Fun!
-x = df.drop(['Outcome'], axis = 1)
-y = df.iloc[:, -1]
+x = dfnew.drop(['Outcome'], axis = 1)
+y = dfnew.iloc[:, -1]
 x_train, x_test, y_train, y_test = train_test_split(x,y, test_size = 0.2, random_state = 0)
 lab_enc = preprocessing.LabelEncoder()
 training_scores_encoded = lab_enc.fit_transform(y_train)
