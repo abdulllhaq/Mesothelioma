@@ -1,18 +1,17 @@
 
-
 import streamlit as st
 import pandas as pd
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
 from sklearn import preprocessing
 
 # App description
 st.markdown('''
-#  Mesothelioma Detector 
+# Mesothelioma Detector 
 This app detects if you have Mesothelioma based on Machine Learning!
 - App built by Pranav Sawant and Anshuman Shukla of Team Skillocity.
 - Dataset Creators: Abdullah Cetin Tanrikulu from Dicle University, Faculty of Medicine, Department of Chest Diseases, 21100 Diyarbakir, Turkey
@@ -36,7 +35,7 @@ st.sidebar.header('Patient Data')
 st.subheader('Training Dataset')
 st.write(dfnew.describe())
 
-# Train data. Fun!
+# Train data
 x = dfnew.drop(['Outcome'], axis=1)
 y = dfnew.iloc[:, -1]
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.6, random_state=0)
@@ -83,7 +82,7 @@ rf = RandomForestClassifier()
 rf.fit(x_train, training_scores_encoded)
 user_result = rf.predict(user_data)
 
-# Visualizations, this is where the beauty begins.
+# Visualizations
 st.title('Graphical Patient Report')
 
 if user_result[0] == 0:
@@ -127,4 +126,4 @@ fig_Area = plt.figure()
 ax11 = sns.scatterplot(x='Age', y='Total_Protein', data=df, hue='Outcome', palette='Greens')
 ax12 = sns.scatterplot(x=user_data['Age'], y=user_data['Total_Protein'], s=150, color=color)
 plt.xticks(np.arange(0, 100, 5))
-plt.yticks
+plt.yticks(np.arange(0, 10, 1))
