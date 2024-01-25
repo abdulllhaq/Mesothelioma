@@ -1,6 +1,5 @@
-Certainly! Here's the modified code with the corrections:
 
-```python
+
 import streamlit as st
 import pandas as pd
 from PIL import Image
