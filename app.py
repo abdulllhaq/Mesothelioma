@@ -1,270 +1,122 @@
 import streamlit as st
 import pandas as pd
-from PIL import Image
-import numpy as np
-import matplotlib.pyplot as plt
-import plotly.figure_factory as ff
-from sklearn.metrics import accuracy_score
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-import seaborn as sns
-from PIL import Image
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 from sklearn import preprocessing
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np  # Import numpy
 
 
+# App Title
+st.title('Mesothelioma Prediction App')
 
-#App description
+# About Section
 st.markdown('''
 # Mesothelioma Detector
 This app detects if you have Mesothelioma based on Machine Learning!
+- App built by Abdul Haq of Team Skillocity.
 - Dataset Creators: Abdullah Cetin Tanrikulu from Dicle University, Faculty of Medicine, Department of Chest Diseases, 21100 Diyarbakir, Turkey
 - Orhan Er from Bozok University, Faculty of Engineering, Department of Electrical and Electronics Eng., 66200 Yozgat, Turkey
 - Note: User inputs are taken from the sidebar. It is located at the top left of the page (arrow symbol). The values of the parameters can be changed from the sidebar.
 ''')
 st.write('---')
 
+# Load Data
+try:
+    df = pd.read_csv('Mesothelioma-data-set.csv')
+except FileNotFoundError:
+    st.error("Error: Mesothelioma-data-set.csv not found.  Make sure it's in the same directory.")
+    st.stop()
+
+# Clean Data (handle missing values)
+df = df.dropna() # crucial to remove rows with missing data
+
+# Data Summary
+st.sidebar.header('Patient Data Input')
+st.subheader('Dataset Overview')
+st.write(df.describe())
+
+# Prepare Data for Model
+X = df.drop('Outcome', axis=1)
+y = df['Outcome']
+
+# Encode target variable
+label_encoder = preprocessing.LabelEncoder()
+y_encoded = label_encoder.fit_transform(y)
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
+
+# Model Training
+model = RandomForestClassifier(random_state=42)
+model.fit(X_train, y_train)
 
 
-df = pd.read_csv(r'Mesothelioma data set.csv')
+# User Input Form
+def user_input_features():
+    age = st.sidebar.slider('Age', int(X['Age'].min()), int(X['Age'].max()), int(X['Age'].mean()))
+    platelet_count = st.sidebar.slider('Platelet Count', float(X['Platelet_Count'].min()), float(X['Platelet_Count'].max()), float(X['Platelet_Count'].mean()))
+    blood_lactic_dehydrogenise = st.sidebar.slider('Blood Lactic Dehydrogenise', float(X['Blood_Lactic_Dehydrogenise'].min()), float(X['Blood_Lactic_Dehydrogenise'].max()), float(X['Blood_Lactic_Dehydrogenise'].mean()))
+    alkaline_phosphatise = st.sidebar.slider('Alkaline Phosphatise', float(X['Alkaline_Phosphatise'].min()), float(X['Alkaline_Phosphatise'].max()), float(X['Alkaline_Phosphatise'].mean()))
+    total_protein = st.sidebar.slider('Total Protein', float(X['Total_Protein'].min()), float(X['Total_Protein'].max()), float(X['Total_Protein'].mean()))
+    albumin = st.sidebar.slider('Albumin', float(X['Albumin'].min()), float(X['Albumin'].max()), float(X['Albumin'].mean()))
+    glucose = st.sidebar.slider('Glucose', float(X['Glucose'].min()), float(X['Glucose'].max()), float(X['Glucose'].mean()))
+    pleural_lactic_dehydrogenise = st.sidebar.slider('Pleural Lactic Dehydrogenise', float(X['Pleural_Lactic_Dehydrogenise'].min()), float(X['Pleural_Lactic_Dehydrogenise'].max()), float(X['Pleural_Lactic_Dehydrogenise'].mean()))
+    pleural_protein = st.sidebar.slider('Pleural Protein', float(X['Pleural_Protein'].min()), float(X['Pleural_Protein'].max()), float(X['Pleural_Protein'].mean()))
+    pleural_albumin = st.sidebar.slider('Pleural Albumin', float(X['Pleural_Albumin'].min()), float(X['Pleural_Albumin'].max()), float(X['Pleural_Albumin'].mean()))
+    pleural_glucose = st.sidebar.slider('Pleural Glucose', float(X['Pleural_Glucose'].min()), float(X['Pleural_Glucose'].max()), float(X['Pleural_Glucose'].mean()))
+    creactive_protein = st.sidebar.slider('C-reactive Protein', float(X['Creactive_Protein'].min()), float(X['Creactive_Protein'].max()), float(X['Creactive_Protein'].mean()))
 
 
+    data = {
+        'Age': age,
+        'Platelet_Count': platelet_count,
+        'Blood_Lactic_Dehydrogenise': blood_lactic_dehydrogenise,
+        'Alkaline_Phosphatise': alkaline_phosphatise,
+        'Total_Protein': total_protein,
+        'Albumin': albumin,
+        'Glucose': glucose,
+        'Pleural_Lactic_Dehydrogenise': pleural_lactic_dehydrogenise,
+        'Pleural_Protein': pleural_protein,
+        'Pleural_Albumin': pleural_albumin,
+        'Pleural_Glucose': pleural_glucose,
+        'Creactive_Protein': creactive_protein
+    }
+    features = pd.DataFrame(data, index=[0])
+    return features
 
-def clean_dataset(df):
-assert isinstance(df, pd.DataFrame), "df needs to be a pd.DataFrame"
-df.dropna(inplace=True)
-indices_to_keep = ~df.isin([np.nan, np.inf, -np.inf]).any(1)
-return df[indices_to_keep].astype(np.float64)
+input_df = user_input_features()
 
+# Prediction
+prediction = model.predict(input_df)
+predicted_class = label_encoder.inverse_transform(prediction)[0] # Decode prediction
+st.subheader('Prediction:')
 
-
-dfnew=clean_dataset(df)
-#titles
-st.sidebar.header('Patient Data')
-st.subheader('Training Dataset')
-st.write(dfnew.describe())
-
-
-
-#train data. Fun!
-x = dfnew.drop(['Outcome'], axis = 1)
-y = dfnew.iloc[:, -1]
-x_train, x_test, y_train, y_test = train_test_split(x,y, test_size = 0.6, random_state = 0)
-lab_enc = preprocessing.LabelEncoder()
-training_scores_encoded = lab_enc.fit_transform(y_train)
-
-
-
-#User reports
-def user_report():
-Age = st.sidebar.slider('Age', 0,100, 54)
-Platelet_Count = st.sidebar.slider('Platelet Count', 0,3500, 315 )
-Blood_Lactic_Dehydrogenise = st.sidebar.slider('Blood Lactic Dehydrogenise', 0,1000, 20 )
-Alkaline_Phosphatise = st.sidebar.slider('Alkaline Phosphatise', 0,500, 92 )
-Total_Protein = st.sidebar.slider('Total Protein', 0.0,10.0, 5.1 )
-Albumin = st.sidebar.slider('Albumin', 0.0,8.0, 1.1 )
-Glucose = st.sidebar.slider('Glucose', 0,500, 10 )
-Pleural_Lactic_Dehydrogenise = st.sidebar.slider('Pleural Lactic Dehydrogenise', 0,8000, 5 )
-Pleural_Protein = st.sidebar.slider('Pleural Protein', 0.0,8.0, 6.5 )
-Pleural_Albumin = st.sidebar.slider('Pleural Albumin', 0.0,6.0, 4.2 )
-Pleural_Glucose = st.sidebar.slider('Pleural Glucose', 0,120, 44)
-Creactive_Protein = st.sidebar.slider('C-reactive Protein', 0,120, 6)
-
-
-
-user_report_data = {
-'Age':Age,
-'Platelet_Count':Platelet_Count,
-'Blood_Lactic_Dehydrogenise':Blood_Lactic_Dehydrogenise,
-'Alkaline_Phosphatise':Alkaline_Phosphatise,
-'Total_Protein':Total_Protein,
-'Albumin':Albumin,
-'Glucose':Glucose,
-'Pleural_Lactic_Dehydrogenise':Pleural_Lactic_Dehydrogenise,
-'Pleural_Protein':Pleural_Protein,
-'Pleural_Albumin':Pleural_Albumin,
-'Pleural_Glucose':Pleural_Glucose,
-'Creactive_Protein':Creactive_Protein,
-
-
-
-}
-report_data = pd.DataFrame(user_report_data, index=[0])
-return report_data
-
-
-
-user_data = user_report()
-st.subheader('Patient Data')
-st.write(user_data)
-
-
-
-rf = RandomForestClassifier()
-rf.fit(x_train, training_scores_encoded)
-user_result = rf.predict(user_data)
-
-
-
-#Visualizations, this is where the beauty begins.
-st.title('Graphical Patient Report')
-
-
-
-if user_result[0]==0:
-color = 'blue'
+if predicted_class == 0:
+    st.write('Healthy')
 else:
-color = 'red'
+    st.write('Mesothelioma')
 
+# Model Performance
+st.subheader('Model Accuracy:')
+accuracy = accuracy_score(y_test, model.predict(X_test))
+st.write(f'{accuracy * 100:.2f}%')
 
+# Visualization (Example: Feature Importance)
+st.subheader('Feature Importance:')
+importances = model.feature_importances_
+feature_names = X.columns
+indices = np.argsort(importances)
 
-#Good old glucose
-st.header('Platelet Count Value Graph (Yours vs Others)')
-fig_Radius = plt.figure()
-ax3 = sns.scatterplot(x = 'Age', y = 'Platelet_Count', data = df, hue = 'Outcome' , palette='Purples')
-ax4 = sns.scatterplot(x = user_data['Age'], y = user_data['Platelet_Count'], s = 150, color = color)
-plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0,3500,175))
-plt.title('0 - Healthy & 1 - Unhealthy')
-st.pyplot(fig_Radius)
+plt.figure(figsize=(10, 6))
+plt.title('Feature Importances')
+plt.barh(range(len(indices)), importances[indices], align='center')
+plt.yticks(range(len(indices)), [feature_names[i] for i in indices])
+plt.xlabel('Relative Importance')
+st.pyplot(plt) # display plot in streamlit
 
-
-
-#Insulin
-st.header('Blood Lactic Dehydrogenise Value Graph (Yours vs Others)')
-fig_Texture = plt.figure()
-ax9 = sns.scatterplot(x = 'Age', y = 'Blood_Lactic_Dehydrogenise', data = df, hue = 'Outcome', palette='rainbow')
-ax10 = sns.scatterplot(x = user_data['Age'], y = user_data['Blood_Lactic_Dehydrogenise'], s = 150, color = color)
-plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0,1000,50))
-plt.title('0 - Healthy & 1 - Unhealthy')
-st.pyplot(fig_Texture)
-
-
-
-#Famous saying BP
-st.header('Alkaline Phosphatise Value Graph (Yours vs Others)')
-fig_Perimeter = plt.figure()
-ax5 = sns.scatterplot(x = 'Age', y = 'Alkaline_Phosphatise', data = df, hue = 'Outcome', palette='Blues')
-ax6 = sns.scatterplot(x = user_data['Age'], y = user_data['Alkaline_Phosphatise'], s = 150, color = color)
-plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0,500,25))
-plt.title('0 - Healthy & 1 - Unhealthy')
-st.pyplot(fig_Perimeter)
-
-
-
-#Did'nt even know this before nutrition training
-st.header('Total Protein Value Graph (Yours vs Others)')
-fig_Area = plt.figure()
-ax11 = sns.scatterplot(x = 'Age', y = 'Total_Protein', data = df, hue = 'Outcome', palette='Greens')
-ax12 = sns.scatterplot(x = user_data['Age'], y = user_data['Total_Protein'], s = 150, color = color)
-plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0,10,1))
-plt.title('0 - Healthy & 1 - Unhealthy')
-st.pyplot(fig_Area)
-
-
-
-#Something new, cool
-st.header('Albumin Value Graph (Yours vs Others)')
-fig_Smoothness = plt.figure()
-ax13 = sns.scatterplot(x = 'Age', y = 'Albumin', data = df, hue = 'Outcome', palette='rocket')
-ax14 = sns.scatterplot(x = user_data['Age'], y = user_data['Albumin'], s = 150, color = color)
-plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0.0,8.0,0.5))
-plt.title('0 - Healthy & 1 - Unhealthy')
-st.pyplot(fig_Smoothness)
-
-
-
-#Don't even know how thats related to diabetes.The dataset was females only though
-st.header('Glucose count Graph (Yours vs Others)')
-fig_Compactness = plt.figure()
-ax1 = sns.scatterplot(x = 'Age', y = 'Glucose', data = df, hue = 'Outcome', palette = 'magma')
-ax2 = sns.scatterplot(x = user_data['Age'], y = user_data['Glucose'], s = 150, color = color)
-plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0,500,25))
-plt.title('0 - Healthy & 1 - Unhealthy')
-st.pyplot(fig_Compactness)
-
-
-
-#Wonder how people measure that
-st.header('Pleural Lactic Dehydrogenise Value Graph (Yours vs Others)')
-fig_Concavity = plt.figure()
-ax7 = sns.scatterplot(x = 'Age', y = 'Pleural_Lactic_Dehydrogenise', data = df, hue = 'Outcome', palette='Reds')
-ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Pleural_Lactic_Dehydrogenise'], s = 150, color = color)
-plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0,8000,400))
-plt.title('0 - Healthy & 1 - Unhealthy')
-st.pyplot(fig_Concavity)
-
-
-
-st.header('Pleural Protein Value Graph (Yours vs Others)')
-fig_Concavepoints = plt.figure()
-ax7 = sns.scatterplot(x = 'Age', y = 'Pleural_Protein', data = df, hue = 'Outcome', palette='mako')
-ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Pleural_Protein'], s = 150, color = color)
-plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0.0,8.0,0.5))
-plt.title('0 - Healthy & 1 - Unhealthy')
-st.pyplot(fig_Concavepoints)
-
-
-
-st.header('Pleural Albumin Value Graph (Yours vs Others)')
-fig_Symmetry = plt.figure()
-ax7 = sns.scatterplot(x = 'Age', y = 'Pleural_Albumin', data = df, hue = 'Outcome', palette='flare')
-ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Pleural_Albumin'], s = 150, color = color)
-plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0.0,6.0,0.5))
-plt.title('0 - Healthy & 1 - Unhealthy')
-st.pyplot(fig_Symmetry)
-
-
-
-st.header('Pleural Glucose Value Graph (Yours vs Others)')
-fig_FractalDimension = plt.figure()
-ax7 = sns.scatterplot(x = 'Age', y = 'Pleural_Glucose', data = df, hue = 'Outcome', palette='crest')
-ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Pleural_Glucose'], s = 150, color = color)
-plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0,120,10))
-plt.title('0 - Healthy & 1 - Unhealthy')
-st.pyplot(fig_FractalDimension)
-
-
-
-st.header('C-reactive Protein Value Graph (Yours vs Others)')
-fig_FractalDimension = plt.figure()
-ax7 = sns.scatterplot(x = 'Age', y = 'Creactive_Protein', data = df, hue = 'Outcome', palette='crest')
-ax8 = sns.scatterplot(x = user_data['Age'], y = user_data['Creactive_Protein'], s = 150, color = color)
-plt.xticks(np.arange(0,100,5))
-plt.yticks(np.arange(0,120,10))
-plt.title('0 - Healthy & 1 - Unhealthy')
-st.pyplot(fig_FractalDimension)
-
-
-
-#Finally!
-st.subheader('Your Report: ')
-output=''
-if user_result[0]==0:
-output = 'Congratulations, you do not have Mesothelioma'
-else:
-output = 'Unfortunately, you do have Mesothelioma'
-st.title(output)
-
-
-
-st.write("This dataset is also available on the UC Irvine Machine Learning Repository")
-st.write("Dataset Citation: An approach based on probabilistic neural network for diagnosis of Mesothelioma's disease By: Er, Orhan; Tanrikulu, Abdullah Cetin; Abakay, Abdurrahman; et al. COMPUTERS & ELECTRICAL ENGINEERING Volume: 38 Issue: 1 Pages: 75-81 Published: JAN 2012")
-
-
-
-#Most important for users
-st.subheader('Lets raise awareness for Mesothelioma and show our support for Mesothelioma awareness and help many patients around the world.')
-st.write("Mesothelioma Awareness Day: 26 September")
-
-
-
-st.write("Disclaimer: This is just a learning project based on one particular dataset so please do not depend on it to actually know if you have Mesothelioma or not. It might still be a false positive or false negative. A doctor is still the best fit for the determination of such diseases.")
+# Footer
+st.write('App built by Abdul Haq.')
+st.write('Disclaimer: This is for educational purposes only. Consult a doctor for medical advice.')
